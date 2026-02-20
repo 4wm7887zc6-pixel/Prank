@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Important Message</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
+
+        .centerText {
+            color: white;
+            font-size: 28px;
+            text-align: center;
+            margin-top: 40vh;
+        }
+
+        img {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            display: none;
+        }
+
+        /* FLASH */
+        .flash {
+            animation: flashRed 0.07s infinite;
+        }
+
+        @keyframes flashRed {
+            0% { background: red; }
+            50% { background: black; }
+            100% { background: red; }
+        }
+
+        /* SHAKE */
+        .shakeScreen {
+            animation: shakeScreen 0.06s infinite;
+        }
+
+        @keyframes shakeScreen {
+            0% { transform: translate(8px, 8px); }
+            25% { transform: translate(-8px, -8px); }
+            50% { transform: translate(8px, -8px); }
+            75% { transform: translate(-8px, 8px); }
+            100% { transform: translate(8px, 8px); }
+        }
+
+        /* GLITCH EFFECT */
+        .glitch {
+            animation: glitch 0.2s infinite;
+        }
+
+        @keyframes glitch {
+            0% { filter: hue-rotate(0deg) contrast(100%); }
+            25% { filter: hue-rotate(90deg) contrast(200%); }
+            50% { filter: hue-rotate(180deg) contrast(50%); }
+            75% { filter: hue-rotate(270deg) contrast(200%); }
+            100% { filter: hue-rotate(360deg) contrast(100%); }
+        }
+
+        /* POPUP BOX */
+        #popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            z-index: 9999;
+        }
+
+        #popup h2 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body onclick="startPrank()">
+
+<div class="centerText" id="startText">
+    Click here. It’s VERY important 😌
+</div>
+
+<img id="hisPic" src="boyfriend.jpg">
+<img id="youPic" src="me.jpg">
+
+<div id="popup">
+    <h2>Do you like Noor?</h2>
+    <button onclick="endPrank()">Yes 😍</button>
+    <button onclick="endPrank()">Also Yes 😌</button>
+</div>
+
+<audio id="scream" loop>
+    <source src="https://www.myinstants.com/media/sounds/movie_1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let started = false;
+
+function startPrank() {
+    if (started) return;
+    started = true;
+
+    document.getElementById("startText").style.display = "none";
+
+    const hisPic = document.getElementById("hisPic");
+    hisPic.style.display = "block";
+
+    document.body.classList.add("flash", "shakeScreen", "glitch");
+
+    const scream = document.getElementById("scream");
+    scream.volume = 1.0;
+    scream.play();
+
+    // Random glitch jitter
+    setInterval(() => {
+        hisPic.style.transform =
+            `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px)
+             scale(${1 + Math.random()*0.3})`;
+    }, 100);
+
+    // Show popup after chaos
+    setTimeout(() => {
+        document.getElementById("popup").style.display = "block";
+    }, 4000);
+}
+
+function endPrank() {
+    document.body.classList.remove("flash", "shakeScreen", "glitch");
+
+    document.getElementById("hisPic").style.display = "none";
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("youPic").style.display = "block";
+
+    const scream = document.getElementById("scream");
+    scream.pause();
+    scream.currentTime = 0;
+}
+</script>
+
+</body>
+</html>
