@@ -90,40 +90,14 @@
             animation: supremacyAppear 1s ease-out forwards, supremacyGlow 2s infinite alternate;
         }
 
-        #yass {
-            position: absolute;
-            top: 15%;
-            width: 100%;
-            text-align: center;
-            font-size: 70px;
-            font-weight: bold;
-            color: #ffff00;
-            text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff1493;
-            display: none;
-            animation: yassBounce 0.6s infinite alternate;
+        @keyframes supremacyAppear {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
-        #judgment {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-            display: none;
-            z-index: 99999;
-        }
-
-        .soulZoom {
-            animation: soulZoom 8s ease-in forwards;
-        }
-
-        @keyframes soulZoom {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(12); opacity: 0.95; }
+        @keyframes supremacyGlow {
+            0% { text-shadow: 0 0 10px #ff69b4; }
+            100% { text-shadow: 0 0 25px #ff1493, 0 0 40px #ff69b4; }
         }
 
         #popup {
@@ -148,116 +122,69 @@
     </style>
 </head>
 <body>
+    <div class="centerText" id="startText">Click here. It’s VERY important 😌</div>
+    <img id="hisPic" src="boyfriend.jpg">
+    <img id="youPic" src="me.jpg">
+    <div id="supremacy">✨ NOOR SUPREMACY ✨</div>
+    <div id="popup">
+        <h2>Do you like Noor?</h2>
+        <button onclick="endPrank()">Yes 😍</button>
+        <button onclick="endPrank()">Obviously Yes 😌</button>
+    </div>
 
-<div class="centerText" id="startText">Click here. It’s VERY important 😌</div>
+    <audio id="scream" loop>
+        <source src="https://raw.githubusercontent.com/4wm7887zc6-pixel/Prank/main/scream.mp3" type="audio/mpeg">
+    </audio>
 
-<img id="jumpPic" src="jumpscare.jpg">
-<img id="hisPic" src="boyfriend.jpg"> 
-<img id="youPic" src="me.jpg">
+    <script>
+        let started = false;
+        let glitchInterval;
 
-<div id="supremacy">✨ NOOR SUPREMACY ✨</div>
-<div id="yass">YASSSSSSSS 💅✨</div>
-<div id="judgment">Why did you have to think about it? 🤨</div>
+        function startPrank() {
+            if (started) return;
+            started = true;
 
-<div id="popup">
-    <h2>Do you like Noor?</h2>
-    <button onclick="endPrank()">Yes 😍</button>
-    <button onclick="endPrank()">Obviously Yes 😌</button>
-</div>
+            document.getElementById("startText").style.display = "none";
 
-<audio id="scream" loop>
-    <source src="https://raw.githubusercontent.com/4wm7887zc6-pixel/Prank/main/scream.mp3" type="audio/mpeg">
-</audio>
+            const hisPic = document.getElementById("hisPic");
+            hisPic.style.display = "block";
 
-<audio id="funny" loop>
-    <source src="funny.mp3" type="audio/mpeg">
-</audio>
+            document.body.classList.add("flash", "shakeScreen", "glitch");
 
-<audio id="whisper">
-    <source src="whisper.mp3" type="audio/mpeg">
-</audio>
+            const scream = document.getElementById("scream");
 
-<script>
-let started = false;
-let glitchInterval;
+            // Mobile audio unlock
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const source = context.createBufferSource();
+            context.resume().then(() => {
+                scream.play().catch(() => { console.log("Audio blocked"); });
+            });
 
-function startPrank() {
-    if (started) return;
-    started = true;
+            glitchInterval = setInterval(() => {
+                hisPic.style.transform = `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px) scale(${1 + Math.random()*0.3})`;
+            }, 100);
 
-    document.getElementById("startText").style.display = "none";
+            setTimeout(() => {
+                document.getElementById("popup").style.display = "block";
+            }, 4000);
+        }
 
-    const jumpPic = document.getElementById("jumpPic");
-    const hisPic = document.getElementById("hisPic");
-    const scream = document.getElementById("scream");
+        function endPrank() {
+            document.body.classList.remove("flash", "shakeScreen", "glitch");
+            clearInterval(glitchInterval);
+            document.getElementById("hisPic").style.display = "none";
+            document.getElementById("popup").style.display = "none";
+            document.getElementById("youPic").style.display = "block";
+            document.getElementById("supremacy").style.display = "block";
 
-    jumpPic.style.display = "block";
-    scream.play().catch(()=>{});
+            const scream = document.getElementById("scream");
+            scream.pause();
+            scream.currentTime = 0;
+        }
 
-    document.body.classList.add("flash", "shakeScreen", "glitch");
-
-    setTimeout(() => {
-        jumpPic.style.display = "none";
-        hisPic.style.display = "block";
-    }, 1200);
-
-    glitchInterval = setInterval(() => {
-        hisPic.style.transform =
-            `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px) scale(${1 + Math.random()*0.3})`;
-    }, 100);
-
-    setTimeout(() => {
-        document.getElementById("popup").style.display = "block";
-    }, 4000);
-}
-
-function playEchoWhisper() {
-    const whisper = document.getElementById("whisper");
-
-    // play multiple echoes
-    whisper.volume = 0.7;
-    whisper.play();
-
-    setTimeout(() => {
-        whisper.volume = 0.4;
-        whisper.play();
-    }, 800);
-
-    setTimeout(() => {
-        whisper.volume = 0.2;
-        whisper.play();
-    }, 1600);
-}
-
-function endPrank() {
-    document.body.classList.remove("flash", "shakeScreen", "glitch");
-    clearInterval(glitchInterval);
-
-    document.getElementById("hisPic").style.display = "none";
-    document.getElementById("popup").style.display = "none";
-
-    const scream = document.getElementById("scream");
-    scream.pause();
-    scream.currentTime = 0;
-
-    document.getElementById("youPic").style.display = "block";
-    document.getElementById("supremacy").style.display = "block";
-    document.getElementById("yass").style.display = "block";
-
-    document.getElementById("funny").play().catch(()=>{});
-
-    setTimeout(() => {
-        const judgment = document.getElementById("judgment");
-        judgment.style.display = "block";
-        judgment.classList.add("soulZoom");
-        playEchoWhisper();
-    }, 2000);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    document.body.addEventListener("click", startPrank);
-});
-</script>
-
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.addEventListener("click", startPrank);
+        });
+    </script>
 </body>
-</html>
+</html> 
