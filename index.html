@@ -165,8 +165,9 @@
     <button onclick="endPrank()">Obviously Yes 😌</button>
 </div>
 
-<audio id="scream.mp3" loop>
-    <source src="https://www.myinstants.com/media/sounds/movie_1.mp3" type="audio/mpeg">
+<!-- UPDATED AUDIO TO PULL FROM GITHUB -->
+<audio id="scream" loop>
+    <source src="https://raw.githubusercontent.com/YourUsername/YourRepo/main/scream.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -209,7 +210,7 @@ function endPrank() {
     document.getElementById("youPic").style.display = "block";
     document.getElementById("supremacy").style.display = "block";
 
-    const scream = document.getElementById("scream.mp3");
+    const scream = document.getElementById("scream");
     scream.pause();
     scream.currentTime = 0;
 }
