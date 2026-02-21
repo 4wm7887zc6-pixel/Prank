@@ -12,7 +12,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Start text */
 .centerText {
     color: white;
     font-size: 28px;
@@ -20,14 +19,12 @@ body {
     margin-top: 40vh;
 }
 
-/* Images */
 img {
     position: absolute;
     width: 100vw;
     height: 100vh;
     object-fit: cover;
     display: none;
-    transition: transform 0.05s linear;
 }
 
 /* FLASH */
@@ -43,29 +40,31 @@ img {
 
 /* SHAKE */
 .shakeScreen {
-    animation: shakeScreen 0.05s infinite;
+    animation: shakeScreen 0.06s infinite;
 }
 
 @keyframes shakeScreen {
-    0% { transform: translate(20px, 20px); }
-    25% { transform: translate(-20px, -20px); }
-    50% { transform: translate(20px, -20px); }
-    75% { transform: translate(-20px, 20px); }
-    100% { transform: translate(20px, 20px); }
+    0% { transform: translate(8px, 8px); }
+    25% { transform: translate(-8px, -8px); }
+    50% { transform: translate(8px, -8px); }
+    75% { transform: translate(-8px, 8px); }
+    100% { transform: translate(8px, 8px); }
 }
 
 /* GLITCH EFFECT */
 .glitch {
-    animation: glitch 0.08s infinite;
+    animation: glitch 0.2s infinite;
 }
 
 @keyframes glitch {
-    0% { filter: contrast(200%) hue-rotate(0deg); }
-    50% { filter: contrast(500%) hue-rotate(180deg); }
-    100% { filter: contrast(200%) hue-rotate(360deg); }
+    0% { filter: hue-rotate(0deg) contrast(100%); }
+    25% { filter: hue-rotate(90deg) contrast(200%); }
+    50% { filter: hue-rotate(180deg) contrast(50%); }
+    75% { filter: hue-rotate(270deg) contrast(200%); }
+    100% { filter: hue-rotate(360deg) contrast(100%); }
 }
 
-/* POPUP */
+/* POPUP BOX */
 #popup {
     position: absolute;
     top: 50%;
@@ -77,6 +76,10 @@ img {
     text-align: center;
     display: none;
     z-index: 9999;
+}
+
+#popup h2 {
+    margin-bottom: 20px;
 }
 
 button {
@@ -94,8 +97,8 @@ button {
     Click here. It’s VERY important 😌
 </div>
 
-<img id="hisPic" src="./boyfriend.jpg">
-<img id="youPic" src="./me.jpg">
+<img id="hisPic" src="boyfriend.jpg">
+<img id="youPic" src="me.jpg">
 
 <div id="popup">
     <h2>Do you like Noor?</h2>
@@ -103,64 +106,48 @@ button {
     <button onclick="endPrank()">Also Yes 😌</button>
 </div>
 
-<!-- Local scream file -->
-<audio id="scream" preload="auto">
+<!-- LOCAL scream.mp3 -->
+<audio id="scream" loop preload="auto">
     <source src="./scream.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 let started = false;
-let glitchInterval;
 
 function startPrank() {
-
     if (started) return;
     started = true;
 
-    const scream = document.getElementById("scream");
-    const hisPic = document.getElementById("hisPic");
-
     document.getElementById("startText").style.display = "none";
 
-    // Short suspense delay
+    const hisPic = document.getElementById("hisPic");
+    hisPic.style.display = "block";
+
+    document.body.classList.add("flash", "shakeScreen", "glitch");
+
+    const scream = document.getElementById("scream");
+    scream.volume = 1.0;
+    scream.play();
+
+    // Random glitch jitter
+    setInterval(() => {
+        hisPic.style.transform =
+            `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px)
+             scale(${1 + Math.random()*0.3})`;
+    }, 100);
+
+    // Show popup after chaos
     setTimeout(() => {
-
-        hisPic.style.display = "block";
-
-        document.body.classList.add("flash", "shakeScreen", "glitch");
-
-        // Hard zoom attack
-        hisPic.style.transform = "scale(2)";
-
-        // Random violent jitter
-        glitchInterval = setInterval(() => {
-            hisPic.style.transform =
-                `translate(${Math.random()*60-30}px, ${Math.random()*60-30}px)
-                 scale(${1.8 + Math.random()*0.8})`;
-        }, 50);
-
-        // Play scream (works because user clicked page)
-        scream.volume = 1.0;
-        scream.currentTime = 0;
-        scream.play();
-
-        // Show popup after chaos
-        setTimeout(() => {
-            document.getElementById("popup").style.display = "block";
-        }, 4000);
-
-    }, 800);
+        document.getElementById("popup").style.display = "block";
+    }, 4000);
 }
 
 function endPrank() {
-
     document.body.classList.remove("flash", "shakeScreen", "glitch");
 
     document.getElementById("hisPic").style.display = "none";
     document.getElementById("popup").style.display = "none";
     document.getElementById("youPic").style.display = "block";
-
-    clearInterval(glitchInterval);
 
     const scream = document.getElementById("scream");
     scream.pause();
@@ -169,4 +156,4 @@ function endPrank() {
 </script>
 
 </body>
-</html>
+</html> 
