@@ -137,8 +137,13 @@ function startPrank() {
     document.body.classList.add("flash", "shakeScreen", "glitch");
 
     const scream = document.getElementById("scream");
-    scream.volume = 1.0;
-    scream.play().catch(()=>{console.log("Audio autoplay blocked, click to start");});
+
+    // MOBILE AUDIO UNLOCK
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const source = context.createBufferSource();
+    context.resume().then(() => {
+        scream.play().catch(()=>{console.log("Audio blocked");});
+    });
 
     glitchInterval = setInterval(() => {
         hisPic.style.transform =
