@@ -27,11 +27,12 @@ img {
     height: 100vh;
     object-fit: cover;
     display: none;
+    transition: transform 0.1s linear;
 }
 
-/* Sudden white flash */
+/* WHITE FLASH BURST */
 .whiteFlash {
-    animation: flashWhite 0.15s 3;
+    animation: flashWhite 0.2s 2;
 }
 
 @keyframes flashWhite {
@@ -39,31 +40,31 @@ img {
     100% { background: black; }
 }
 
-/* Violent shake */
+/* VIOLENT SHAKE */
 .shakeScreen {
     animation: shakeScreen 0.05s infinite;
 }
 
 @keyframes shakeScreen {
-    0% { transform: translate(15px, 15px); }
-    25% { transform: translate(-15px, -15px); }
-    50% { transform: translate(15px, -15px); }
-    75% { transform: translate(-15px, 15px); }
-    100% { transform: translate(15px, 15px); }
+    0% { transform: translate(20px, 20px); }
+    25% { transform: translate(-20px, -20px); }
+    50% { transform: translate(20px, -20px); }
+    75% { transform: translate(-20px, 20px); }
+    100% { transform: translate(20px, 20px); }
 }
 
-/* Glitch color split */
+/* GLITCH DISTORTION */
 .glitch {
-    animation: glitch 0.1s infinite;
+    animation: glitch 0.08s infinite;
 }
 
 @keyframes glitch {
     0% { filter: contrast(200%) hue-rotate(0deg); }
-    50% { filter: contrast(400%) hue-rotate(180deg); }
+    50% { filter: contrast(500%) hue-rotate(180deg); }
     100% { filter: contrast(200%) hue-rotate(360deg); }
 }
 
-/* Popup */
+/* POPUP */
 #popup {
     position: absolute;
     top: 50%;
@@ -92,8 +93,8 @@ button {
     Click here. It’s VERY important 😌
 </div>
 
-<img id="hisPic" src="boyfriend.jpg">
-<img id="youPic" src="me.jpg">
+<img id="hisPic" src="./boyfriend.jpg">
+<img id="youPic" src="./me.jpg">
 
 <div id="popup">
     <h2>Do you like Noor?</h2>
@@ -101,9 +102,9 @@ button {
     <button onclick="endPrank()">Absolutely Yes 😌</button>
 </div>
 
-<!-- ⚠️ Replace scream.mp3 with a REAL scream sound file -->
-<audio id="scream">
-    <source src="scream.mp3" type="audio/mpeg">
+<!-- Local scream file -->
+<audio id="scream" preload="auto">
+    <source src="./scream.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -111,36 +112,41 @@ let started = false;
 let glitchInterval;
 
 function startPrank() {
+
     if (started) return;
     started = true;
 
+    const scream = document.getElementById("scream");
+
+    // Hide start text
     document.getElementById("startText").style.display = "none";
 
-    // Small delay before scare (tension)
+    // Short suspense delay
     setTimeout(() => {
 
         const hisPic = document.getElementById("hisPic");
         hisPic.style.display = "block";
 
+        // White flash burst
         document.body.classList.add("whiteFlash");
 
         setTimeout(() => {
             document.body.classList.add("shakeScreen", "glitch");
-        }, 150);
+        }, 200);
 
-        // HARD zoom effect
-        hisPic.style.transform = "scale(1.8)";
+        // HARD zoom attack
+        hisPic.style.transform = "scale(2)";
 
-        // Random jitter zoom
+        // Random violent jitter
         glitchInterval = setInterval(() => {
             hisPic.style.transform =
-                `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)
-                 scale(${1.5 + Math.random()*0.7})`;
-        }, 60);
+                `translate(${Math.random()*60-30}px, ${Math.random()*60-30}px)
+                 scale(${1.8 + Math.random()*0.8})`;
+        }, 50);
 
-        // Play scream LOUD
-        const scream = document.getElementById("scream");
+        // Play scream (works because user clicked body)
         scream.volume = 1.0;
+        scream.currentTime = 0;
         scream.play();
 
         // Show popup after chaos
@@ -148,7 +154,7 @@ function startPrank() {
             document.getElementById("popup").style.display = "block";
         }, 4000);
 
-    }, 1200); // suspense delay
+    }, 1000);
 }
 
 function endPrank() {
