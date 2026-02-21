@@ -27,20 +27,21 @@ img {
     height: 100vh;
     object-fit: cover;
     display: none;
-    transition: transform 0.1s linear;
+    transition: transform 0.05s linear;
 }
 
-/* WHITE FLASH BURST */
-.whiteFlash {
-    animation: flashWhite 0.2s 2;
+/* FLASH */
+.flash {
+    animation: flashRed 0.07s infinite;
 }
 
-@keyframes flashWhite {
-    0% { background: white; }
-    100% { background: black; }
+@keyframes flashRed {
+    0% { background: red; }
+    50% { background: black; }
+    100% { background: red; }
 }
 
-/* VIOLENT SHAKE */
+/* SHAKE */
 .shakeScreen {
     animation: shakeScreen 0.05s infinite;
 }
@@ -53,7 +54,7 @@ img {
     100% { transform: translate(20px, 20px); }
 }
 
-/* GLITCH DISTORTION */
+/* GLITCH EFFECT */
 .glitch {
     animation: glitch 0.08s infinite;
 }
@@ -99,7 +100,7 @@ button {
 <div id="popup">
     <h2>Do you like Noor?</h2>
     <button onclick="endPrank()">Yes 😍</button>
-    <button onclick="endPrank()">Absolutely Yes 😌</button>
+    <button onclick="endPrank()">Also Yes 😌</button>
 </div>
 
 <!-- Local scream file -->
@@ -117,24 +118,18 @@ function startPrank() {
     started = true;
 
     const scream = document.getElementById("scream");
+    const hisPic = document.getElementById("hisPic");
 
-    // Hide start text
     document.getElementById("startText").style.display = "none";
 
     // Short suspense delay
     setTimeout(() => {
 
-        const hisPic = document.getElementById("hisPic");
         hisPic.style.display = "block";
 
-        // White flash burst
-        document.body.classList.add("whiteFlash");
+        document.body.classList.add("flash", "shakeScreen", "glitch");
 
-        setTimeout(() => {
-            document.body.classList.add("shakeScreen", "glitch");
-        }, 200);
-
-        // HARD zoom attack
+        // Hard zoom attack
         hisPic.style.transform = "scale(2)";
 
         // Random violent jitter
@@ -144,7 +139,7 @@ function startPrank() {
                  scale(${1.8 + Math.random()*0.8})`;
         }, 50);
 
-        // Play scream (works because user clicked body)
+        // Play scream (works because user clicked page)
         scream.volume = 1.0;
         scream.currentTime = 0;
         scream.play();
@@ -154,12 +149,12 @@ function startPrank() {
             document.getElementById("popup").style.display = "block";
         }, 4000);
 
-    }, 1000);
+    }, 800);
 }
 
 function endPrank() {
 
-    document.body.classList.remove("whiteFlash", "shakeScreen", "glitch");
+    document.body.classList.remove("flash", "shakeScreen", "glitch");
 
     document.getElementById("hisPic").style.display = "none";
     document.getElementById("popup").style.display = "none";
