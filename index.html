@@ -1,94 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Important Message</title>
+    <title>Important Message</title>
 
-<style>
-body {
-    margin: 0;
-    background: black;
-    overflow: hidden;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-}
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            overflow: hidden;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+        }
 
-.centerText {
-    color: white;
-    font-size: 28px;
-    text-align: center;
-    margin-top: 40vh;
-}
+        .centerText {
+            color: white;
+            font-size: 28px;
+            text-align: center;
+            margin-top: 40vh;
+        }
 
-img {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    display: none;
-}
+        img {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            display: none;
+        }
 
-/* FLASH */
-.flash {
-    animation: flashRed 0.07s infinite;
-}
+        /* CHAOS EFFECTS */
+        .flash {
+            animation: flashRed 0.07s infinite;
+        }
 
-@keyframes flashRed {
-    0% { background: red; }
-    50% { background: black; }
-    100% { background: red; }
-}
+        @keyframes flashRed {
+            0% { background: red; }
+            50% { background: black; }
+            100% { background: red; }
+        }
 
-/* SHAKE */
-.shakeScreen {
-    animation: shakeScreen 0.06s infinite;
-}
+        .shakeScreen {
+            animation: shakeScreen 0.06s infinite;
+        }
 
-@keyframes shakeScreen {
-    0% { transform: translate(8px, 8px); }
-    25% { transform: translate(-8px, -8px); }
-    50% { transform: translate(8px, -8px); }
-    75% { transform: translate(-8px, 8px); }
-    100% { transform: translate(8px, 8px); }
-}
+        @keyframes shakeScreen {
+            0% { transform: translate(8px, 8px); }
+            25% { transform: translate(-8px, -8px); }
+            50% { transform: translate(8px, -8px); }
+            75% { transform: translate(-8px, 8px); }
+            100% { transform: translate(8px, 8px); }
+        }
 
-/* GLITCH EFFECT */
-.glitch {
-    animation: glitch 0.2s infinite;
-}
+        .glitch {
+            animation: glitch 0.2s infinite;
+        }
 
-@keyframes glitch {
-    0% { filter: hue-rotate(0deg) contrast(100%); }
-    25% { filter: hue-rotate(90deg) contrast(200%); }
-    50% { filter: hue-rotate(180deg) contrast(50%); }
-    75% { filter: hue-rotate(270deg) contrast(200%); }
-    100% { filter: hue-rotate(360deg) contrast(100%); }
-}
+        @keyframes glitch {
+            0% { filter: hue-rotate(0deg) contrast(100%); }
+            25% { filter: hue-rotate(90deg) contrast(200%); }
+            50% { filter: hue-rotate(180deg) contrast(50%); }
+            75% { filter: hue-rotate(270deg) contrast(200%); }
+            100% { filter: hue-rotate(360deg) contrast(100%); }
+        }
 
-/* POPUP BOX */
-#popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    display: none;
-    z-index: 9999;
-}
+        /* ✨ SMALLER YOU IMAGE WITH GLOW */
+        #youPic {
+            width: 350px;
+            height: auto;
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow:
+                0 0 20px #ff69b4,
+                0 0 40px #ff69b4,
+                0 0 60px #ff1493;
+            animation: float 3s ease-in-out infinite,
+                       glowPulse 2s ease-in-out infinite;
+        }
 
-#popup h2 {
-    margin-bottom: 20px;
-}
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+            100% { transform: translate(-50%, -50%) translateY(0px); }
+        }
 
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 18px;
-    cursor: pointer;
-}
-</style>
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 15px #ff69b4, 0 0 30px #ff1493; }
+            50% { box-shadow: 0 0 30px #ff1493, 0 0 60px #ff69b4; }
+            100% { box-shadow: 0 0 15px #ff69b4, 0 0 30px #ff1493; }
+        }
+
+        /* 🌟 NOOR SUPREMACY TEXT */
+        #supremacy {
+            position: absolute;
+            top: 75%;
+            width: 100%;
+            text-align: center;
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: none;
+            animation: supremacyAppear 1s ease-out forwards,
+                       supremacyGlow 2s infinite alternate;
+        }
+
+        @keyframes supremacyAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes supremacyGlow {
+            0% { text-shadow: 0 0 10px #ff69b4; }
+            100% { text-shadow: 0 0 25px #ff1493, 0 0 40px #ff69b4; }
+        }
+
+        /* POPUP */
+        #popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            z-index: 9999;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 
 <body onclick="startPrank()">
@@ -100,19 +157,21 @@ button {
 <img id="hisPic" src="boyfriend.jpg">
 <img id="youPic" src="me.jpg">
 
+<div id="supremacy">✨ NOOR SUPREMACY ✨</div>
+
 <div id="popup">
     <h2>Do you like Noor?</h2>
     <button onclick="endPrank()">Yes 😍</button>
-    <button onclick="endPrank()">Also Yes 😌</button>
+    <button onclick="endPrank()">Obviously Yes 😌</button>
 </div>
 
-<!-- LOCAL scream.mp3 -->
-<audio id="scream" loop preload="auto">
-    <source src="./scream.mp3" type="audio/mpeg">
+<audio id="scream.mp3" loop>
+    <source src="https://www.myinstants.com/media/sounds/movie_1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 let started = false;
+let glitchInterval;
 
 function startPrank() {
     if (started) return;
@@ -129,14 +188,12 @@ function startPrank() {
     scream.volume = 1.0;
     scream.play();
 
-    // Random glitch jitter
-    setInterval(() => {
+    glitchInterval = setInterval(() => {
         hisPic.style.transform =
             `translate(${Math.random()*20-10}px, ${Math.random()*20-10}px)
              scale(${1 + Math.random()*0.3})`;
     }, 100);
 
-    // Show popup after chaos
     setTimeout(() => {
         document.getElementById("popup").style.display = "block";
     }, 4000);
@@ -145,15 +202,18 @@ function startPrank() {
 function endPrank() {
     document.body.classList.remove("flash", "shakeScreen", "glitch");
 
+    clearInterval(glitchInterval);
+
     document.getElementById("hisPic").style.display = "none";
     document.getElementById("popup").style.display = "none";
     document.getElementById("youPic").style.display = "block";
+    document.getElementById("supremacy").style.display = "block";
 
-    const scream = document.getElementById("scream");
+    const scream = document.getElementById("scream.mp3");
     scream.pause();
     scream.currentTime = 0;
 }
 </script>
 
 </body>
-</html> 
+</html>
